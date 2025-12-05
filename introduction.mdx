@@ -1,0 +1,100 @@
+---
+title: Introduction
+description: Overview of Vishnuraj pr Documentation and its core capabilities
+---
+
+## Getting Started
+
+Vishnuraj pr Documentation provides a comprehensive platform for organizing and managing project documentation. Streamline your documentation workflow with powerful tools for collaboration and version control. Get started quickly with intuitive interfaces and robust APIs.
+
+<Columns cols={3}>
+  <Card title="Quick Setup" icon="zap" href="authentication">
+    Set up your account and authentication in minutes.
+  </Card>
+  <Card title="API Integration" icon="code" href="guides">
+    Integrate with your existing tools and workflows.
+  </Card>
+  <Card title="Configuration" icon="settings" href="configuration">
+    Customize your documentation space to fit your needs.
+  </Card>
+</Columns>
+
+## Key Features
+
+Vishnuraj pr Documentation offers a suite of features designed to enhance your documentation experience.
+
+<Tabs>
+  <Tab title="Collaboration" icon="users">
+    Work seamlessly with your team using real-time editing and version control. Share documents easily and track changes with detailed history.
+    
+    <Steps>
+      <Step title="Invite Team Members" icon="user-plus">
+        Add collaborators to your documentation space.
+        ````bash
+        curl -X POST https://api.vishnurajpr.com/invite \
+          -H "Authorization: Bearer YOUR_TOKEN" \
+          -d '{"email":"team@company.com"}'
+        ````
+      </Step>
+      <Step title="Share Documents" icon="share">
+        Generate shareable links for external stakeholders.
+        ````bash
+        curl -X GET https://api.vishnurajpr.com/documents/123/share \
+          -H "Authorization: Bearer YOUR_TOKEN"
+        ````
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Version Control" icon="git-branch">
+    Maintain multiple versions of your documentation with branching and merging capabilities.
+    
+    <CodeGroup tabs="CLI,API">
+      ````bash
+      vishnuraj-cli create-branch --name "v2.0" --document 123
+      ````
+      ````javascript
+      const response = await fetch('/api/documents/123/branches', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ name: 'v2.0' })
+      });
+      ````
+    </CodeGroup>
+  </Tab>
+</Tabs>
+
+<Callout kind="info">
+  All features are available through both web interface and API endpoints.
+</Callout>
+
+<Expandable title="Advanced Capabilities" default-open="false">
+  Discover additional features like webhooks, custom integrations, and automated workflows.
+  
+  ## Webhooks
+  
+  Set up webhooks to receive notifications when documents are updated or new versions are created.
+  
+  ````javascript
+  app.post('/webhook/document-updated', (req, res) => {
+    const { documentId, action } = req.body;
+    console.log(`Document ${documentId} was ${action}`);
+    res.sendStatus(200);
+  });
+  ````
+  
+  ## Custom Integrations
+  
+  Build custom integrations using our REST API and webhook system.
+</Expandable>
+
+<ExpandableGroup>
+  <Expandable title="What makes Vishnuraj pr Documentation unique?" default-open="true">
+    Our platform combines simplicity with powerful features, making documentation management accessible to teams of all sizes.
+  </Expandable>
+  <Expandable title="Is there a free tier?" default-open="false">
+    Yes, we offer a generous free tier with up to 5 team members and unlimited documents.
+  </Expandable>
+  <Expandable title="Can I migrate existing documentation?" default-open="false">
+    Absolutely! Use our import tools to bring in your existing Markdown files and Confluence pages.
+  </Expandable>
+</ExpandableGroup>

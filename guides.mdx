@@ -1,0 +1,160 @@
+---
+title: Guides
+description: Step-by-step guides for using Vishnuraj pr Documentation effectively
+---
+
+## Creating Your First Document
+
+Learn how to create and publish your first documentation page.
+
+<Steps>
+  <Step title="Log In" icon="log-in">
+    Access your Vishnuraj pr account.
+    ````bash
+    curl -X POST https://api.vishnurajpr.com/login \
+      -d '{"email":"user@example.com","password":"secret"}'
+    ````
+  </Step>
+  <Step title="Create Document" icon="file-plus">
+    Use the API or web interface to create a new document.
+    ````javascript
+    const document = {
+      title: 'My First Guide',
+      content: '# Welcome\nThis is my documentation.',
+      tags: ['guide', 'tutorial']
+    };
+    fetch('/api/documents', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify(document)
+    }).then(res => res.json()).then(data => console.log('Created:', data));
+    ````
+  </Step>
+  <Step title="Add Content" icon="edit">
+    Write your documentation content using Markdown.
+  </Step>
+  <Step title="Publish" icon="send">
+    Make your document publicly accessible.
+    ````bash
+    curl -X PATCH https://api.vishnurajpr.com/documents/123 \
+      -H "Authorization: Bearer YOUR_TOKEN" \
+      -d '{"status":"published"}'
+    ````
+  </Step>
+</Steps>
+
+<Callout kind="success">
+  Congratulations! You've created your first document.
+</Callout>
+
+## Team Collaboration
+
+Collaborate effectively with your team on documentation projects.
+
+<Tabs>
+  <Tab title="Real-time Editing" icon="users">
+    Edit documents simultaneously with your team.
+    
+    <CodeGroup tabs="WebSocket,API">
+      ````javascript
+      const ws = new WebSocket('wss://api.vishnurajpr.com/ws');
+      ws.onmessage = (event) => {
+        const update = JSON.parse(event.data);
+        console.log('Document updated:', update);
+      };
+      ````
+      ````bash
+      curl -X GET https://api.vishnurajpr.com/documents/123/edits \
+        -H "Authorization: Bearer YOUR_TOKEN"
+      ````
+    </CodeGroup>
+  </Tab>
+  <Tab title="Review Process" icon="check-circle">
+    Implement review workflows for quality control.
+    
+    <Expandable title="Setting Up Reviews" default-open="false">
+      Configure review requirements for your documents.
+      
+      ````json
+      {
+        "review_required": true,
+        "min_reviewers": 2,
+        "auto_approve": false
+      }
+      ````
+    </Expandable>
+  </Tab>
+</Tabs>
+
+<ExpandableGroup>
+  <Expandable title="How do I invite collaborators?" default-open="false">
+    Go to workspace settings and add team members with appropriate roles.
+  </Expandable>
+  <Expandable title="Can I set up approval workflows?" default-open="false">
+    Yes, configure custom approval processes in your workspace settings.
+  </Expandable>
+</ExpandableGroup>
+
+## API Integration Guide
+
+Integrate Vishnuraj pr with your existing tools.
+
+<Steps>
+  <Step title="Obtain API Key" icon="key">
+    Generate an API key from your account settings.
+  </Step>
+  <Step title="Make API Calls" icon="code">
+    Use the API to automate documentation tasks.
+    ````python
+    import requests
+    
+    api_key = 'your-api-key'
+    headers = {'Authorization': f'Bearer {api_key}'}
+    
+    response = requests.get('https://api.vishnurajpr.com/documents', headers=headers)
+    documents = response.json()
+    print(f'Found {len(documents)} documents')
+    ````
+  </Step>
+  <Step title="Handle Responses" icon="alert-circle">
+    Process API responses and handle errors appropriately.
+  </Step>
+</Steps>
+
+<Callout kind="tip">
+  Check our API reference for complete endpoint documentation.
+</Callout>
+
+## Best Practices
+
+Follow these guidelines for optimal documentation management.
+
+- Keep documents organized with clear titles and tags
+- Use consistent formatting and style
+- Regularly review and update content
+- Implement version control for important changes
+
+| Best Practice | Reason |
+|---------------|--------|
+| Use descriptive titles | Improves searchability |
+| Add tags | Enhances categorization |
+| Include examples | Helps users understand concepts |
+| Review regularly | Ensures accuracy and relevance |
+
+## Troubleshooting
+
+Common issues and their solutions.
+
+<Expandable title="Document not saving" default-open="false">
+  Check your internet connection and permissions.
+</Expandable>
+
+<Expandable title="Collaboration not working" default-open="false">
+  Ensure all collaborators have the correct permissions.
+</Expandable>
+
+`````bash
+# Check document status
+curl -X GET https://api.vishnurajpr.com/documents/123/status \
+  -H "Authorization: Bearer YOUR_TOKEN"
+`````

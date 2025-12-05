@@ -1,0 +1,149 @@
+---
+title: Configuration
+description: Configure Vishnuraj pr Documentation to meet your team's needs
+---
+
+## Basic Setup
+
+Get started with basic configuration options for your documentation space.
+
+<Steps>
+  <Step title="Create Workspace" icon="folder">
+    Set up your initial workspace and organization settings.
+    ````bash
+    curl -X POST https://api.vishnurajpr.com/workspaces \
+      -H "Authorization: Bearer YOUR_TOKEN" \
+      -d '{"name":"My Company Docs","plan":"free"}'
+    ````
+  </Step>
+  <Step title="Configure Permissions" icon="users">
+    Define roles and permissions for your team members.
+    ````javascript
+    const permissions = {
+      admin: ['read', 'write', 'delete', 'manage'],
+      editor: ['read', 'write'],
+      viewer: ['read']
+    };
+    fetch('/api/permissions', {
+      method: 'PUT',
+      headers: { 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify(permissions)
+    });
+    ````
+  </Step>
+  <Step title="Set Up Branding" icon="palette">
+    Customize the look and feel of your documentation.
+    ````json
+    {
+      "branding": {
+        "logo": "https://example.com/logo.png",
+        "colors": {
+          "primary": "#3B82F6",
+          "secondary": "#64748B"
+        }
+      }
+    }
+    ````
+  </Step>
+</Steps>
+
+<Callout kind="info">
+  Configuration changes take effect immediately, but some settings may require a page refresh.
+</Callout>
+
+## Advanced Configuration
+
+Explore advanced options to customize your documentation experience.
+
+<Tabs>
+  <Tab title="Webhooks" icon="webhook">
+    Set up webhooks for real-time notifications.
+    
+    <CodeGroup tabs="cURL,JavaScript">
+      ````bash
+      curl -X POST https://api.vishnurajpr.com/webhooks \
+        -H "Authorization: Bearer YOUR_TOKEN" \
+        -d '{"url":"https://yourapp.com/webhook","events":["document.updated"]}'
+      ````
+      ````javascript
+      const webhook = {
+        url: 'https://yourapp.com/webhook',
+        events: ['document.created', 'document.updated'],
+        secret: 'your-webhook-secret'
+      };
+      fetch('/api/webhooks', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify(webhook)
+      }).then(res => res.json()).then(data => console.log('Webhook created:', data));
+      ````
+    </CodeGroup>
+  </Tab>
+  <Tab title="Integrations" icon="plug">
+    Connect with third-party tools and services.
+    
+    <Expandable title="Slack Integration" default-open="false">
+      Receive notifications in Slack channels.
+      
+      ````bash
+      curl -X POST https://api.vishnurajpr.com/integrations/slack \
+        -H "Authorization: Bearer YOUR_TOKEN" \
+        -d '{"webhook_url":"https://hooks.slack.com/...","channel":"#docs"}'
+      ````
+    </Expandable>
+    
+    <Expandable title="GitHub Integration" default-open="false">
+      Sync documentation with GitHub repositories.
+      
+      ````javascript
+      const githubConfig = {
+        repo: 'company/docs',
+        token: 'github-token',
+        branch: 'main'
+      };
+      fetch('/api/integrations/github', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify(githubConfig)
+      });
+      ````
+    </Expandable>
+  </Tab>
+</Tabs>
+
+<ExpandableGroup>
+  <Expandable title="How do I backup my configuration?" default-open="false">
+    Use the export feature in settings to download your workspace configuration as JSON.
+  </Expandable>
+  <Expandable title="Can I import settings from another tool?" default-open="false">
+    Yes, we support importing configurations from popular documentation platforms.
+  </Expandable>
+</ExpandableGroup>
+
+## Environment Variables
+
+Configure your application using environment variables.
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `VISHNURAJ_API_KEY` | Your API key | Yes |
+| `VISHNURAJ_BASE_URL` | API base URL | No |
+| `VISHNURAJ_TIMEOUT` | Request timeout in seconds | No |
+
+<Callout kind="tip">
+  Store sensitive variables securely using your platform's secret management system.
+</Callout>
+
+## Troubleshooting Configuration
+
+Common configuration issues and solutions.
+
+- **Permission denied**: Check your user role and workspace permissions
+- **Webhook not firing**: Verify the webhook URL and event types
+- **Integration failing**: Ensure third-party credentials are correct
+
+`````bash
+# Debug configuration
+curl -X GET https://api.vishnurajpr.com/config/debug \
+  -H "Authorization: Bearer YOUR_TOKEN"
+`````

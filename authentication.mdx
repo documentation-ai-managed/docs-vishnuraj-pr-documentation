@@ -1,0 +1,142 @@
+---
+title: Authentication
+description: Learn how to authenticate with Vishnuraj pr Documentation APIs
+---
+
+## Authentication Methods
+
+Vishnuraj pr Documentation supports multiple authentication methods to ensure secure access to your documentation resources.
+
+<Tabs>
+  <Tab title="API Keys" icon="key">
+    Use API keys for programmatic access to our REST API.
+    
+    <Steps>
+      <Step title="Generate API Key" icon="plus">
+        Navigate to your account settings and generate a new API key.
+        ````bash
+        curl -X POST https://api.vishnurajpr.com/api-keys \
+          -H "Authorization: Bearer YOUR_SESSION_TOKEN" \
+          -d '{"name":"My App Key"}'
+        ````
+      </Step>
+      <Step title="Use in Requests" icon="send">
+        Include the API key in your request headers.
+        ````javascript
+        const headers = {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+        };
+        fetch('/api/documents', { headers })
+          .then(res => res.json())
+          .then(data => console.log(data));
+        ````
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="OAuth" icon="shield">
+    Integrate with OAuth for user-based authentication in web applications.
+    
+    <CodeGroup tabs="Node.js,Python">
+      ````javascript
+      const oauth2 = require('simple-oauth2');
+      const config = {
+        client: {
+          id: 'your-client-id',
+          secret: 'your-client-secret'
+        },
+        auth: {
+          tokenHost: 'https://api.vishnurajpr.com',
+          tokenPath: '/oauth/token',
+          authorizePath: '/oauth/authorize'
+        }
+      };
+      ````
+      ````python
+      import requests_oauthlib
+      from requests_oauthlib import OAuth2Session
+      
+      client_id = 'your-client-id'
+      client_secret = 'your-client-secret'
+      redirect_uri = 'https://yourapp.com/callback'
+      
+      oauth = OAuth2Session(client_id, redirect_uri=redirect_uri)
+      ````
+    </CodeGroup>
+  </Tab>
+</Tabs>
+
+<Callout kind="tip">
+  Always store your API keys securely and never expose them in client-side code.
+</Callout>
+
+## Token Management
+
+Manage your authentication tokens effectively to maintain security.
+
+<Expandable title="Token Expiration" default-open="false">
+  API tokens expire after 30 days by default. You can refresh them using the `/refresh` endpoint.
+  
+  ````bash
+  curl -X POST https://api.vishnurajpr.com/refresh \
+    -H "Authorization: Bearer YOUR_REFRESH_TOKEN"
+  ````
+</Expandable>
+
+<Expandable title="Revoking Tokens" default-open="false">
+  Revoke tokens immediately if they are compromised.
+  
+  ````javascript
+  fetch('/api/tokens/revoke', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${token}` },
+    body: JSON.stringify({ tokenId: 'token-123' })
+  });
+  ````
+</Expandable>
+
+<ExpandableGroup>
+  <Expandable title="How do I reset my password?" default-open="false">
+    Click the "Forgot Password" link on the login page and follow the instructions sent to your email.
+  </Expandable>
+  <Expandable title="Can I use SSO?" default-open="false">
+    Yes, we support SAML and OAuth SSO for enterprise accounts.
+  </Expandable>
+</ExpandableGroup>
+
+## Security Best Practices
+
+Follow these guidelines to keep your documentation secure.
+
+- Use HTTPS for all API requests
+- Rotate API keys regularly
+- Implement proper error handling
+- Monitor authentication logs
+
+<Callout kind="alert">
+  Never share your authentication credentials in public repositories or forums.
+</Callout>
+
+## Troubleshooting
+
+Common authentication issues and their solutions.
+
+| Issue | Solution |
+|-------|----------|
+| `Invalid token` | Check token expiration and refresh if needed |
+| `Access denied` | Verify your permissions for the requested resource |
+| `Rate limit exceeded` | Implement exponential backoff in your requests |
+
+## Rate Limiting
+
+Our API implements rate limiting to ensure fair usage.
+
+- 1000 requests per hour for free tier
+- 10000 requests per hour for paid plans
+- Rate limit headers included in responses
+
+`````bash
+curl -I https://api.vishnurajpr.com/documents \
+  -H "Authorization: Bearer YOUR_TOKEN"
+# Check X-RateLimit-Remaining header
+`````
